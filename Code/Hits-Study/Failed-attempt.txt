@@ -1,0 +1,28 @@
+TLegend* legend3[modeNum][nbins-50];
+TCanvas* c4[8] = {};
+
+for (int i =0;i<modeNum;++i) {
+   c4[2*i] = new TCanvas(TString::Format("dedx %d",2*i),"", 1800,1000);
+   c4[2*i] -> Divide(5,3);
+   c4[2*i+1] = new TCanvas(TString::Format("dedx %d",2*i+1),"", 1800,1000);
+   c4[2*i+1] -> Divide(5,3);
+   for (int j = 25;j<nbins-25;++j) {
+      legend3[i][j] = new TLegend(.85,.45,1,.55);
+      if (j < 25+15) {
+         c4[2*i] -> cd(j+1);
+         dedxPlot[i][j]->Draw();
+      }
+      else {
+         c4[2*i+1]->cd((j-24)%15);
+         dedxPlot[i][j]->Draw();
+      }
+      gStyle->SetOptFit(0001);
+      mu = fit[i][j]->GetParameter(1);
+      reso = fit[i][j]->GetParameter(2);
+
+      legend3[i][j]->AddEntry(dedxPlot[i][j], TString::Format("%f",reso/mu),"");
+      legend3[i][j]->Draw();
+   }
+   c4[2*i]->SaveAs(TString::Format("Cuts-Mode%d-first.pdf",i));
+   c4[2*i+1]->SaveAs(TString::Format("Cuts-Mode%d-second.pdf",i));
+}

@@ -1,0 +1,23 @@
+{
+track->Draw("hPath:hDoca>>h30negent(400,-2,2,400,1.5,1.8)","abs(hEnta+1.5708)<0.01");
+track->Draw("hPath:hDoca>>h50negent(400,-2,2,400,1.5,1.8)","hLayer==8&&abs(hEnta+1.5708)<0.01");
+track->Draw("hPath:hDoca>>h30posent(400,-2,2,400,1.5,1.8)","hLayer==37&&abs(hEnta-1.5708)<0.01");
+track->Draw("hPath:hDoca>>h50posent(400,-2,2,400,1.5,1.8)","hLayer==38&&abs(hEnta-1.5708)<0.01");
+track->Draw("hPath:hDoca>>h30_wide(400,-2,2,400,1.5,1.8)","hLayer==25&&abs(hEnta+1.5708)<0.1");
+
+TCanvas *c1 = new TCanvas("c1","",650,650);
+c1->Divide(2,2);
+
+c1->cd(1);
+h30negent->Draw();
+h50negent->SetMarkerColor(kRed);
+h50negent->Draw("same");
+
+c1->cd(2);
+h30posent->Draw();
+h50posent->SetMarkerColor(kRed);
+h50posent->Draw("same");
+
+c1->cd(3);
+h30_wide->Draw();
+}
